@@ -20,8 +20,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate=useNavigate();
   const [signupInput, setSignupInput] = useState({
     name: "",
     email: "",
@@ -43,7 +45,6 @@ const Login = () => {
     error:loginError,
     isLoading:loginIsLoading,
     isSuccess:loginIsSuccess}]=useLoginUserMutation();
-
   const changeInputHandler = (e, type) => {
     const { name, value } = e.target;
     if (type === "signup") {
@@ -75,6 +76,7 @@ useEffect(() => {
   if (loginIsSuccess && loginData) {
     console.log("LOGIN SUCCESS");
     toast.success(loginData?.message || "Login Successfully");
+    navigate("/");
   setLoginInput({ email: " ", password: "" }); 
   }
 
