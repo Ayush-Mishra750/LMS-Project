@@ -85,7 +85,7 @@ useEffect(() => {
     const errMsg = loginError?.data?.message || "Login Failed";
     toast.error(errMsg);
   }
-}, [registerIsSuccess, registerError, registerData, loginIsSuccess, loginError, loginData]);
+}, [registerIsSuccess, registerError, registerData, loginIsSuccess, loginError, loginData, navigate]);
 
 
   return (

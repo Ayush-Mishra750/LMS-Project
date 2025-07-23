@@ -4,6 +4,7 @@ import Course from "./Course";
 
 function Courses() {
   const isLoading = false;
+  const courses=[1,2,3,4,5,6];
   return (
    <div className="bg-gray-50">
   <div className="max-w-7xl mx-auto p-5">
@@ -13,7 +14,9 @@ function Courses() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
            {isLoading ? Array.from({length:8}).map((_,index)=>(
     <CourseSkeleton  key={index}/>
-        ) ) :  <Course/>}
+        ) ) :  (
+courses.map((course,index)=><Course key={index}/>)
+        )}
       </div>
     </div>
   </div>

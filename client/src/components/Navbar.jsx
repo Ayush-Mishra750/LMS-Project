@@ -1,5 +1,5 @@
 import { Menu, School } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -30,18 +30,34 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import DarkMode from "@/DarkMode";
 import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogOutUserMutation } from "@/features/api/authApi";
+import { toast } from "sonner";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const user = true;
+  const { user } = useSelector((store) => store.auth);
+  const [logoutUser, { data, isSuccess }] = useLogOutUserMutation();
+  const navigate = useNavigate();
+  const logOutHandler = async () => {
+    await logoutUser();
+  };
+  console.log(user);
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "user logged out");
+      navigate("/login");
+    }
+  }, [isSuccess]);
   return (
     <div className="h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-gray-200 fixed top-0 left-0 right-0 duration-300 z-10">
       {/* // desktop ke liye  */}
-      <div className="max-w-7xl mx-auto hidden  md:flex justify-between items-center gp-10 h-full">
+      <div className="max-w-7xl mx-auto hidden  md:flex justify-between items-center gp-10 h-full cursor-pointer" >
         <div className="flex items-center gap-3">
           <School size={"30"} />
-          <h1 className="hidden md:block font-extrabold text-2xl">
+         <Link to={'/'}> <h1 className="hidden md:block font-extrabold text-2xl" >
             E-Learning
-          </h1>
+          </h1></Link>
         </div>
         {/* //dark and bright mode ke liye */}
         <div className="flex items-between gap-6">
@@ -50,7 +66,7 @@ const Navbar = () => {
               <DropdownMenuTrigger asChild>
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src={user?.photoUrl || "https://github.com/shadcn.png"}
                     alt="@shadcn"
                     className="rounded-full object-cover w-10" // ✅ Makes image circular
                   />
@@ -58,19 +74,34 @@ const Navbar = () => {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="start">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>
+                  <Link to="/my-profile">My Account</Link>
+                </DropdownMenuLabel>
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>My Learning</DropdownMenuItem>
-                  <DropdownMenuItem>Edit Profile</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="/my-learning">My Learning</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Link to="/my-profile">Profile</Link>{" "}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={logOutHandler}>
+                    Log out
+                  </DropdownMenuItem>
                 </DropdownMenuGroup>
-                <DropdownMenuItem>Log out</DropdownMenuItem>
-                <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                {user?.role === "instructor" && (
+                  <>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                  </>
+                )}
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant="outline">Login</Button>
-              <Button>SignUp</Button>
+              <Button variant="outline" onClick={() => navigate("/login")}>
+                Login
+              </Button>
+              <Button onClick={() => navigate("/login")}>SignUp</Button>
             </div>
           )}
 
@@ -89,7 +120,7 @@ const Navbar = () => {
 export default Navbar;
 
 export const MobileDevice = () => {
-  const role="instructor";
+  const role = "instructor";
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -103,7 +134,9 @@ export const MobileDevice = () => {
       </SheetTrigger>
       <SheetContent className="flex flex-col">
         <SheetHeader className="flex flex-row items-center justify-between mt-2">
-          <SheetTitle className="font-extrabold text-xl cursor-pointer">E-Learning</SheetTitle>
+          <SheetTitle className="font-extrabold text-xl cursor-pointer">
+            E-Learning
+          </SheetTitle>
           <DarkMode className="bg-amber-300" />
         </SheetHeader>
         <Separator className="mr-2" />
@@ -114,7 +147,7 @@ export const MobileDevice = () => {
         </nav>
         {role === "instructor" && (
           <SheetFooter className="mb-100">
-            <Button type="submit" >Dashboard</Button>
+            <Button type="submit">Dashboard</Button>
             <SheetClose asChild></SheetClose>
           </SheetFooter>
         )}

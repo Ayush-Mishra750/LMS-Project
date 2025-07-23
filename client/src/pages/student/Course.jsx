@@ -13,11 +13,11 @@ const Course = () => {
           className="w-full  h-36 object-cover rounded-t-lg"
         />
       </div>
-      <CardContent className={'mt-2'}>
+      <CardContent className={'mt-1'}>
         <h1 className="hover:underline font-bold text-lg truncate">
           Next js complete course in 2025
         </h1>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
               <AvatarImage
@@ -36,10 +36,8 @@ const Course = () => {
  
 </div>
         </div>
-        <div>
-            <span>
-                499
-            </span>
+        <div className="text-lg font-bold">
+          <span>₹999</span>
         </div>
       </CardContent>
     </Card>
