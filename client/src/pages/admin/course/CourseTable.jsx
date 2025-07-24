@@ -57,6 +57,7 @@ const invoices = [
 ]
 const CourseTable = () => {
     const navigate=useNavigate();
+    
   return (
     <div>
      <Button onClick={()=>navigate('create')} >Create courses</Button>
