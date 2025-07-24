@@ -27,7 +27,7 @@ export const createCourse = async (req, res) => {
   }
 };
 
-export const getCreatorCourse=async(req,res)=>{
+export const getCreatorCourses=async(req,res)=>{
   try {
     const userId=req.id;
     const courses=await Course.find({creator:userId});

@@ -37,18 +37,19 @@ const AddCourse = () => {
 };
 
 
-  useEffect( ()=>{
-    if(isSuccess){
-        // console.log('course created')
-        toast.success(data?.message ||"course created")
-        setCourseTitle("");
-       setCourseCategory("");
-    }
-    if(isError){
-        toast.error(data.message||"Invalid input ")
-    }
+ useEffect(() => {
+  if (isSuccess) {
+    toast.success(data?.message || "Course created");
+    setCourseTitle("");
+    setCourseCategory("");
+    navigate('/admin/course'); // ✅ Correct navigation
+  }
 
-},[isSuccess,isError])
+  if (isError) {
+    toast.error(data?.message || "Invalid input");
+  }
+}, [isSuccess, isError]);
+
   return (
     <div className="flex-1 mx-10">
       <div className="mb-4">
