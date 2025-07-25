@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React from "react";
 
+
 const HeroSection = () => {
   return (
-    <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-24 px-6 text-center">
+    
+     <div className="relative bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-24 px-6 text-center"> */}
   <div className="flex flex-col items-center justify-center max-w-2xl mx-auto">
     <h1 className="text-white text-5xl font-extrabold leading-tight mb-4">
       Find the Perfect Course to Level Up
@@ -33,8 +35,9 @@ const HeroSection = () => {
     <button className="bg-white text-blue-600 dark:bg-gray-200 rounded-full px-6 py-3 font-medium hover:bg-gray-100 dark:hover:bg-gray-300 transition">
       Explore All Courses
     </button>
-  </div>
+   </div> 
 </div>
+
 
   );
 };

@@ -21,9 +21,8 @@ export const coursesSchema= new mongoose.Schema({
         type:Number
     },
     courseThumbnail:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'User'
+        { type: String,
+           ref:'User'
         }
     ],
     lectures:[

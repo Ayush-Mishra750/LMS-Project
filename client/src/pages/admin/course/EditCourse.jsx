@@ -6,9 +6,9 @@ import CourseTab from './CourseTab';
 const EditCourse= ({ courseData, onSave, onRemove }) => {
   const navigate = useNavigate();
 
-  const [title, setTitle] = useState(courseData?.title || '');
-  const [subtitle, setSubtitle] = useState(courseData?.subtitle || '');
-  const [description, setDescription] = useState(courseData?.description || '');
+//   const [title, setTitle] = useState(courseData?.title || '');
+//   const [subtitle, setSubtitle] = useState(courseData?.subtitle || '');
+//   const [description, setDescription] = useState(courseData?.description || '');
 
  
 
