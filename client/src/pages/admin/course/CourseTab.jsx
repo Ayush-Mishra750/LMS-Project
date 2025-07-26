@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEditCourseMutation } from "@/features/api/courseApi";
+import { useEditCourseMutation, useGetCourseQuery } from "@/features/api/courseApi";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -25,6 +25,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const CourseTab = () => {
+   const params=useParams();
+  const courseId=params.courseId;
+  // const {data:courseById,isLoading:isLoadingById}=useGetCourseQuery(courseId);
+  // const course=courseById?.course;
+  // console.log(course)
+  // useEffect(()=>{
+  //   if(course){
+  //     setInput({
+  //        courseTitle: course.courseTitle,
+  //   subTitle:course.subTitle,
+  //   description:course.description ,
+  //   category: course.category,
+  //   courseLevel: course.courseLevel,
+  //   coursePrice: course.coursePrice,
+  //   courseThumbnail: ""
+  //     })
+  //   }
+  // },[courseById])
   const navigate = useNavigate();
   const [previewThumbnail, setPreviewThumbnail] = useState("");
   const [input, setInput] = useState({
@@ -36,8 +54,7 @@ const CourseTab = () => {
     coursePrice: "",
     courseThumbnail: "",
   });
-  const params=useParams();
-  const courseId=params.courseId;
+ 
   const selectCategory = (value) => {
     setInput({ ...input, category: value });
   };
@@ -62,11 +79,14 @@ const CourseTab = () => {
 useEffect(()=>{
   if(isSuccess){
     toast.success(data.message||"course update successfully")
+    navigate('/admin/course');
   }
  
 },[isSuccess])
 
+
 // console.log("thumb",input)
+
   const changeEventHandler = (e) => {
     const { name, value } = e.target;
     setInput({ ...input, [name]: value });
@@ -81,12 +101,12 @@ useEffect(()=>{
       fileReader.readAsDataURL(file);
     }
   };
-
-  const handleChange = (e) => {
-    console.log(e.target.value);
-    const { name, value } = e.target;
-    setInput({ ...input, [name]: value });
-  };
+console.log(input.coursePrice)
+  // const handleChange = (e) => {
+  //   console.log(e.target.value);
+  //   const { name, value } = e.target;
+  //   setInput({ ...input, [name]: value });
+  // };
   //   const isPublished = false;
 
   return (
@@ -134,7 +154,7 @@ useEffect(()=>{
               rows={7}
               name="description"
               value={input.description}
-              onChange={handleChange}
+              onChange={changeEventHandler}
               className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
               placeholder="Enter course description"
             />

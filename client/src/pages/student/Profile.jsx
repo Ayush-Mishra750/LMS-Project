@@ -40,7 +40,7 @@ const Profile = () => {
     if (isError) {
       toast.error(isError?.message || "Profile not updated");
     }
-  }, [isError, isSuccess, updateUserData]);
+  }, [isError, isSuccess,updateUserData]);
 
   const onChangeHandler = (e) => {
     const file = e.target.files?.[0];

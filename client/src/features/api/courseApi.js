@@ -30,10 +30,18 @@ export const courseApi = createApi({
         url:`/${courseId}`,
         method:'PUT',
         body:formData
-      })
+      }),
+       invalidatesTags:['Refetch_Creator_Course']
+    }),
+    getCourse:builder.query({
+      query:(courseId)=>({
+        url:`/${courseId}`,
+        method:'GET',
+      }),
+      //  invalidatesTags:['Refetch_Creator_Course']
     })
     
   }),
 });
 
-export const { useCreateCourseMutation, useGetCreatorCourseQuery ,useEditCourseMutation} = courseApi;
+export const { useCreateCourseMutation, useGetCreatorCourseQuery ,useEditCourseMutation,useGetCourseQuery} = courseApi;
