@@ -17,8 +17,9 @@ export const coursesSchema= new mongoose.Schema({
         type:String,
         enum:['beginner' ,'Medium' ,'advance']
     },
-    coursesPrice:{
-        type:Number
+    coursePrice:{
+        type:Number,
+        required:true
     },
     courseThumbnail:[
         { type: String,
