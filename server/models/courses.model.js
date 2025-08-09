@@ -19,7 +19,7 @@ export const coursesSchema= new mongoose.Schema({
     },
     coursePrice:{
         type:Number,
-        required:true
+        
     },
     courseThumbnail:[
         { type: String,

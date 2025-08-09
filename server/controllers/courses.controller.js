@@ -106,10 +106,11 @@ export const editCourse = async (req, res) => {
     });
   }
 };
-export const getCourse = async (req, res) => {
+export const getCourseById = async (req, res) => {
   try {
-    const courseId = req.params.courseId;
+    const {courseId} = req.params;
     let course = await Course.findById(courseId);
+    // console.log(course)
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }

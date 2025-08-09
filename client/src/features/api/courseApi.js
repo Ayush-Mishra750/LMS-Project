@@ -33,15 +33,16 @@ export const courseApi = createApi({
       }),
        invalidatesTags:['Refetch_Creator_Course']
     }),
-    getCourse:builder.query({
+    getCourseById:builder.query({
       query:(courseId)=>({
         url:`/${courseId}`,
         method:'GET',
       }),
-      //  invalidatesTags:['Refetch_Creator_Course']
+      providesTags:['Refetch_Creator_Course']
+
     })
     
   }),
 });
 
-export const { useCreateCourseMutation, useGetCreatorCourseQuery ,useEditCourseMutation,useGetCourseQuery} = courseApi;
+export const { useCreateCourseMutation, useGetCreatorCourseQuery ,useEditCourseMutation,useGetCourseByIdQuery} = courseApi;

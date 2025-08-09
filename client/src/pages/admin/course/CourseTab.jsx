@@ -17,7 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEditCourseMutation, useGetCourseQuery } from "@/features/api/courseApi";
+import {
+  useEditCourseMutation,
+  useGetCourseByIdQuery,
+} from "@/features/api/courseApi";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -25,26 +28,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 const CourseTab = () => {
-   const params=useParams();
-  const courseId=params.courseId;
-  // const {data:courseById,isLoading:isLoadingById}=useGetCourseQuery(courseId);
-  // const course=courseById?.course;
-  // console.log(course)
-  // useEffect(()=>{
-  //   if(course){
-  //     setInput({
-  //        courseTitle: course.courseTitle,
-  //   subTitle:course.subTitle,
-  //   description:course.description ,
-  //   category: course.category,
-  //   courseLevel: course.courseLevel,
-  //   coursePrice: course.coursePrice,
-  //   courseThumbnail: ""
-  //     })
-  //   }
-  // },[courseById])
-  const navigate = useNavigate();
-  const [previewThumbnail, setPreviewThumbnail] = useState("");
+  const params = useParams();
+  const courseId = params.courseId;
   const [input, setInput] = useState({
     courseTitle: "",
     subTitle: "",
@@ -54,7 +39,26 @@ const CourseTab = () => {
     coursePrice: "",
     courseThumbnail: "",
   });
+  const { data: courseById, isLoading: isLoadingById } =
+    useGetCourseByIdQuery(courseId);
+  const course = courseById?.course;
+  useEffect(() => {
+    if (course) {
+      setInput({
+        courseTitle: course.courseTitle,
+        subTitle: course.subTitle,
+        description: course.description,
+        category: course.category,
+        courseLevel: course.courseLevel,
+        coursePrice: course.coursePrice,
+        courseThumbnail: "",
+      });
+    }
+  }, [course]);
+  const navigate = useNavigate();
  
+  const [previewThumbnail, setPreviewThumbnail] = useState("");
+
   const selectCategory = (value) => {
     setInput({ ...input, category: value });
   };
@@ -63,29 +67,27 @@ const CourseTab = () => {
   };
   const [editCourse, { data, isLoading, isSuccess }] = useEditCourseMutation();
   // console.log("data",data)
-  const updateCourseHandler=async()=>{
-    const formData=new FormData();
-    formData.append("courseTitle",input.courseTitle); 
-    formData.append("subTitle",input.subTitle);
-    formData.append("description",input.description);
-    formData.append("category",input.category);
-    formData.append("courseLevel",input.courseLevel);
-    formData.append("coursePrice",input.coursePrice);
-    formData.append("courseThumbnail",input.courseThumbnail);
-    
-  await editCourse({formData,courseId});
-}
-// console.log(editCourse)
-useEffect(()=>{
-  if(isSuccess){
-    toast.success(data.message||"course update successfully")
-    navigate('/admin/course');
-  }
- 
-},[isSuccess])
+  const updateCourseHandler = async () => {
+    const formData = new FormData();
+    formData.append("courseTitle", input.courseTitle);
+    formData.append("subTitle", input.subTitle);
+    formData.append("description", input.description);
+    formData.append("category", input.category);
+    formData.append("courseLevel", input.courseLevel);
+    formData.append("coursePrice", input.coursePrice);
+    formData.append("courseThumbnail", input.courseThumbnail);
 
+    await editCourse({ formData, courseId });
+  };
+  // console.log(editCourse)
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message || "course update successfully");
+      navigate("/admin/course");
+    }
+  }, [isSuccess]);
 
-// console.log("thumb",input)
+  // console.log("thumb",input)
 
   const changeEventHandler = (e) => {
     const { name, value } = e.target;
@@ -101,13 +103,8 @@ useEffect(()=>{
       fileReader.readAsDataURL(file);
     }
   };
-console.log(input.coursePrice)
-  // const handleChange = (e) => {
-  //   console.log(e.target.value);
-  //   const { name, value } = e.target;
-  //   setInput({ ...input, [name]: value });
-  // };
-  //   const isPublished = false;
+  console.log(input.coursePrice);
+  if(isLoadingById)return <Loader2 className="m-4 h-4 animate-in"/>
 
   return (
     <Card>
@@ -256,7 +253,7 @@ console.log(input.coursePrice)
                 onClick={() => navigate("/admin/course")}
               >
                 Cancel
-              </Button>  
+              </Button>
 
               <Button
                 className="bg-blue-600 hover:bg-blue-700 text-white"
