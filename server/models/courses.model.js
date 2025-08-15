@@ -13,6 +13,10 @@ export const coursesSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+     description:{
+        type:String,
+        required:true
+    },
     courseLevel:{
         type:String,
         enum:['beginner' ,'Medium' ,'advance']
@@ -29,7 +33,7 @@ export const coursesSchema= new mongoose.Schema({
     lectures:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:'User'
+            // ref:'User'
         }
     ],
      creator:{

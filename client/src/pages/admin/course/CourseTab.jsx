@@ -42,6 +42,7 @@ const CourseTab = () => {
   const { data: courseById, isLoading: isLoadingById } =
     useGetCourseByIdQuery(courseId);
   const course = courseById?.course;
+  console.log(course);
   useEffect(() => {
     if (course) {
       setInput({
@@ -51,6 +52,7 @@ const CourseTab = () => {
         category: course.category,
         courseLevel: course.courseLevel,
         coursePrice: course.coursePrice,
+        // difficulty:course.difficulty,
         courseThumbnail: "",
       });
     }
@@ -76,6 +78,7 @@ const CourseTab = () => {
     formData.append("courseLevel", input.courseLevel);
     formData.append("coursePrice", input.coursePrice);
     formData.append("courseThumbnail", input.courseThumbnail);
+    // formData.append("difficulty",input.difficulty)
 
     await editCourse({ formData, courseId });
   };
